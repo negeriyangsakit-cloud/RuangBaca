@@ -73,11 +73,60 @@ if (registerForm) {
   });
 }
 
-/* CEK STATUS LOGIN */
+/* STATUS LOGIN DAN AKUN SAYA */
+const navLogin = document.getElementById("nav-login");
+const navRegister = document.getElementById("nav-register");
+const navAccount = document.getElementById("nav-account");
+const authGrid = document.querySelector(".auth-grid");
+
+const accountPanel = document.createElement("div");
+accountPanel.className = "auth-card";
+accountPanel.hidden = true;
+
+const accountTitle = document.createElement("h3");
+accountTitle.textContent = "Akun Saya";
+
+const accountName = document.createElement("p");
+const accountEmail = document.createElement("p");
+
+const logoutButton = document.createElement("button");
+logoutButton.type = "button";
+logoutButton.className = "btn btn-outline";
+logoutButton.textContent = "Keluar dari akun";
+
+accountPanel.append(accountTitle, accountName, accountEmail, logoutButton);
+
+if (authGrid) authGrid.appendChild(accountPanel);
+
+if (navAccount) {
+  navAccount.addEventListener("click", function () {
+    accountPanel.hidden = !accountPanel.hidden;
+  });
+}
+
+logoutButton.addEventListener("click", async function () {
+  try {
+    await auth.signOut();
+  } catch (error) {
+    alert("Gagal keluar: " + error.message);
+  }
+});
+
 auth.onAuthStateChanged(function (user) {
+  const loggedIn = !!user;
+
+  if (navLogin) navLogin.hidden = loggedIn;
+  if (navRegister) navRegister.hidden = loggedIn;
+  if (navAccount) navAccount.hidden = !loggedIn;
+
+  if (loginForm) loginForm.hidden = loggedIn;
+  if (registerForm) registerForm.hidden = loggedIn;
+
+  accountPanel.hidden = true;
+
   if (user) {
+    accountName.textContent = "Nama: " + (user.displayName || "Belum diatur");
+    accountEmail.textContent = "Email: " + (user.email || "Tidak tersedia");
     console.log("Pengguna masuk:", user.email);
-  } else {
-    console.log("Belum ada pengguna yang masuk.");
   }
 });
