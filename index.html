@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RuangBaca — Perpustakaan Digital</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="topbar">✦ Temukan bacaan baru, buka dunia yang lebih luas — kapan saja, di mana saja.</div>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#beranda" aria-label="RuangBaca beranda"><span class="brand-mark">⌂</span><span>ruang<em>baca.</em></span></a>
+      <nav class="navlinks" aria-label="Navigasi utama">
+        <a href="#beranda">Beranda</a><a href="#katalog">Katalog Buku</a><a href="#cara">Cara Meminjam</a><a href="#akun">Akun</a>
+      </nav>
+      <div class="nav-actions"><a class="btn btn-outline" href="#akun">Masuk</a><a class="btn btn-primary" href="#daftar">Daftar Gratis ↗</a></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="beranda">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow"><b></b> PERPUSTAKAAN DIGITAL SEKOLAH</div>
+          <h1>Satu buku,<br>banyak <span>kemungkinan.</span></h1>
+          <p class="hero-copy">Temukan cerita, ilmu, dan inspirasi baru. Jelajahi koleksi perpustakaan sekolahmu dan pinjam buku favorit dengan lebih mudah.</p>
+          <div class="hero-buttons"><a class="btn btn-primary" href="#katalog">Jelajahi Koleksi&nbsp; ↗</a><a class="btn btn-outline" href="#cara">Cara meminjam</a></div>
+          <div class="hero-note"><div class="avatars"><span class="avatar">📚</span><span class="avatar">🌱</span><span class="avatar">💡</span><span class="avatar">✏️</span></div><span><strong>Belajar jadi lebih seru.</strong><br>Mulai petualangan membacamu hari ini.</span></div>
+        </div>
+        <div class="hero-art" aria-label="Ilustrasi tumpukan buku">
+          <div class="art-blob"></div>
+          <div class="book-stack">
+            <div class="book back"><small>RuangBaca Library</small><strong>THE<br>GOLDEN<br>HOUR</strong><i>READ • DREAM • GROW</i></div>
+            <div class="book middle"><small>Catatan Kecil</small><strong>Temukan<br>Dirimu</strong><i>SEBUAH PERJALANAN</i></div>
+            <div class="book front"><small>Perpustakaan Digital</small><strong>Jendela<br>Dunia</strong><i>SETIAP HALAMAN BERARTI</i></div>
+          </div>
+          <div class="float-card fc-one"><span class="icon">📖</span><span>Koleksi pilihan<small>Bacaan untuk semua rasa ingin tahu</small></span></div>
+          <div class="float-card fc-two"><span class="icon">✨</span><span>Mulai dari sini<small>Satu halaman setiap hari</small></span></div>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="stats">
+          <div class="stat"><strong>1.200+</strong><span>Koleksi bacaan</span></div>
+          <div class="stat"><strong>850+</strong><span>Siswa pembaca</span></div>
+          <div class="stat"><strong>24/7</strong><span>Akses katalog online</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="katalog">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="kicker">Rak pilihan pustakawan</div><h2>Buku yang mungkin<br>kamu suka.</h2><p class="section-sub">Cari bacaan sesuai minatmu. Dari cerita yang menghangatkan hati sampai pengetahuan yang membuka pikiran.</p></div>
+          <a class="text-link" href="#akun">Lihat semua koleksi ↗</a>
+        </div>
+        <label class="searchbar"><span>⌕</span><input type="search" placeholder="Cari judul buku, penulis, atau kategori..." aria-label="Cari buku"></label>
+        <div class="chips"><span class="chip active">Semua buku</span><span class="chip">Fiksi</span><span class="chip">Sains</span><span class="chip">Sejarah</span><span class="chip">Pengembangan diri</span></div>
+        <div class="books-grid">
+          <article class="book-card"><div class="cover c1"><span class="cover-tag">Kumpulan cerita</span><strong>Senja di<br>Ujung Jalan</strong><small>SEBUAH NOVEL</small></div><div class="book-info"><span class="genre">Fiksi</span><h3>Senja di Ujung Jalan</h3><p>R. Mahendra</p><div class="book-bottom"><span class="available">● Tersedia</span><button class="borrow" type="button">Pinjam ↗</button></div></div></article>
+          <article class="book-card"><div class="cover c2"><span class="cover-tag">Jelajah pengetahuan</span><strong>Alam<br>Semesta</strong><small>KENALI DUNIA KITA</small></div><div class="book-info"><span class="genre">Sains</span><h3>Rahasia Alam Semesta</h3><p>D. Pratama</p><div class="book-bottom"><span class="available">● Tersedia</span><button class="borrow" type="button">Pinjam ↗</button></div></div></article>
+          <article class="book-card"><div class="cover c3"><span class="cover-tag">Kisah inspiratif</span><strong>Langkah<br>Pertama</strong><small>BERANI BERMIMPI</small></div><div class="book-info"><span class="genre">Motivasi</span><h3>Langkah Pertama</h3><p>N. Puspita</p><div class="book-bottom"><span class="available">● Tersedia</span><button class="borrow" type="button">Pinjam ↗</button></div></div></article>
+          <article class="book-card"><div class="cover c4"><span class="cover-tag">Catatan sejarah</span><strong>Jejak<br>Nusantara</strong><small>CERITA MASA LALU</small></div><div class="book-info"><span class="genre">Sejarah</span><h3>Jejak Nusantara</h3><p>Arga Wiratama</p><div class="book-bottom"><span class="available">● Tersedia</span><button class="borrow" type="button">Pinjam ↗</button></div></div></article>
+          <article class="book-card"><div class="cover c5"><span class="cover-tag">Buku pengetahuan</span><strong>Bumi Kita</strong><small>JAGA MASA DEPAN</small></div><div class="book-info"><span class="genre">Lingkungan</span><h3>Bumi Kita, Rumah Kita</h3><p>S. Lestari</p><div class="book-bottom"><span class="available">● Tersedia</span><button class="borrow" type="button">Pinjam ↗</button></div></div></article>
+          <article class="book-card"><div class="cover c6"><span class="cover-tag">Kreativitas</span><strong>Berpikir<br>Berbeda</strong><small>IDE TANPA BATAS</small></div><div class="book-info"><span class="genre">Pengembangan diri</span><h3>Seni Berpikir Kreatif</h3><p>M. Adinata</p><div class="book-bottom"><span class="available">● Tersedia</span><button class="borrow" type="button">Pinjam ↗</button></div></div></article>
+          <article class="book-card"><div class="cover c7"><span class="cover-tag">Petualangan</span><strong>Pulau<br>Rahasia</strong><small>BERANI MENJELAJAH</small></div><div class="book-info"><span class="genre">Petualangan</span><h3>Misteri Pulau Rahasia</h3><p>T. Kurniawan</p><div class="book-bottom"><span class="available">● Tersedia</span><button class="borrow" type="button">Pinjam ↗</button></div></div></article>
+          <article class="book-card"><div class="cover c8"><span class="cover-tag">Literasi</span><strong>Kekuatan<br>Kata</strong><small>MENULIS DENGAN HATI</small></div><div class="book-info"><span class="genre">Bahasa</span><h3>Kekuatan Kata</h3><p>A. Permata</p><div class="book-bottom"><span class="available">● Tersedia</span><button class="borrow" type="button">Pinjam ↗</button></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section how" id="cara">
+      <div class="wrap">
+        <div class="kicker">Gampang banget</div><h2>Tiga langkah menuju<br>buku favoritmu.</h2><p class="section-sub">Desain alur yang sederhana supaya kamu bisa fokus pada hal yang paling penting: membaca.</p>
+        <div class="steps">
+          <article class="step"><div class="step-no">01</div><h3>Buat akun</h3><p>Daftarkan akun menggunakan nama, email, dan identitas siswa yang terdaftar di sekolah.</p></article>
+          <article class="step"><div class="step-no">02</div><h3>Temukan buku</h3><p>Jelajahi katalog, cari judul yang kamu inginkan, lalu periksa ketersediaan bukunya.</p></article>
+          <article class="step"><div class="step-no">03</div><h3>Ajukan peminjaman</h3><p>Masuk ke akunmu dan ajukan peminjaman kepada petugas perpustakaan.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="akun">
+      <div class="wrap">
+        <div class="section-head"><div><div class="kicker">Area anggota</div><h2>Senang melihatmu<br>di sini.</h2><p class="section-sub">Masuk untuk melanjutkan perjalanan membaca, atau buat akun baru untuk bergabung.</p></div></div>
+        <div class="auth-grid">
+          <form class="auth-card" id="login-form">
+            <h3>Selamat datang kembali!</h3><p>Masuk ke akun perpustakaanmu.</p>
+            <div class="field"><label for="login-email">Email atau NIS</label><input id="login-email" name="login-email" type="text" placeholder="contoh: siswa@sekolah.sch.id" required></div>
+            <div class="field"><label for="login-password">Kata sandi</label><input id="login-password" name="login-password" type="password" placeholder="Masukkan kata sandi" required></div>
+            <button class="btn btn-primary" type="submit">Masuk ke akun →</button>
+            <div class="demo-note" id="register-message"></div>
+          </>
+          <form class="auth-card" id="daftar">
+            <h3>Yuk, bergabung!</h3><p>Buat akun anggota perpustakaan baru.</p>
+            <div class="field"><label for="reg-name">Nama lengkap</label><input id="reg-name" name="name" type="text" placeholder="Nama sesuai data sekolah" required></div>
+            <div class="field"><label for="reg-id">NIS / ID siswa</label><input id="reg-id" name="student-id" type="text" placeholder="Masukkan nomor siswa" required></div>
+            <div class="field"><label for="reg-email">Email aktif</label><input id="reg-email" name="email" type="email" placeholder="nama@email.com" required></div>
+            <div class="field"><label for="reg-role">Daftar sebagai</label><select id="reg-role" name="role" required><option value="">Pilih peran akun</option><option>Siswa</option><option>Pengurus / Pembina</option></select></div>
+            <div class="field"><label for="reg-password">Buat kata sandi</label><input id="reg-password" name="password" type="password" placeholder="Minimal 8 karakter" minlength="8" required></div>
+            <button class="btn btn-primary" type="submit">Buat akun gratis ↗</button>
+            <div class="demo-note" id="register-message"></div>
+          </>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="wrap"><div class="cta-box"><div><h2>Halaman baru menunggumu.</h2><p>Ambil buku, temukan ide, dan tumbuh bersama RuangBaca.</p></div><a class="btn" href="#katalog">Temukan bacaan ↗</a></div></div>
+    </section>
+  </main>
+  <footer><div class="wrap footer-row"><a class="brand footer-brand" href="#beranda"><span class="brand-mark">⌂</span><span>ruang<span>baca.</span></span></a><span>© 2026 RuangBaca Digital Library · Dibuat untuk belajar dan bertumbuh.</span><span>HTML + CSS · Student Project</span></div></footer>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
