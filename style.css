@@ -147,3 +147,6 @@
       .cta-box h2 { font-size: 27px; } .cta-box:after { right: -15px; top: 25px; }
       .footer-row { align-items: start; flex-direction: column; }
     }
+
+/* Pastikan elemen hidden benar-benar tersembunyi */
+[hidden] { display: none !important; }
