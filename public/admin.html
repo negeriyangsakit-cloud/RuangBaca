@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin RuangBaca</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6fb;
+      color: #20243a;
+    }
+    header {
+      background: #252b50;
+      color: white;
+      padding: 22px 18px;
+    }
+    header h1 { margin: 0 0 6px; }
+    header p { margin: 0; color: #d5d9f5; }
+    main {
+      width: min(950px, 100%);
+      margin: auto;
+      padding: 20px 14px 40px;
+    }
+    .notice, .panel {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 18px #1720440c;
+    }
+    .notice {
+      border-left: 5px solid #e7a52c;
+      line-height: 1.6;
+    }
+    h2 { margin-top: 0; }
+    label {
+      display: block;
+      margin: 14px 0 6px;
+      font-weight: bold;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d5d9e5;
+      border-radius: 8px;
+      font: inherit;
+      background: white;
+    }
+    textarea { min-height: 110px; resize: vertical; }
+    #content { min-height: 220px; }
+    button, .link {
+      display: inline-block;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 16px;
+      background: #414b91;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #a5a9bb;
+      cursor: not-allowed;
+    }
+    .secondary { background: #e9ebf5; color: #252b50; }
+    .muted { color: #686f83; line-height: 1.6; }
+    #message { font-weight: bold; }
+    footer { text-align: center; padding: 20px; color: #686f83; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📚 RuangBaca Admin</h1>
+    <p>Panel pengelolaan koleksi buku</p>
+  </header>
+
+  <main>
+    <section class="notice">
+      <strong>🔒 Mode persiapan</strong>
+      <p>
+        Dashboard ini belum terhubung untuk menulis ke database.
+        Formulir hanya untuk menyiapkan data buku sampai hak admin
+        dan aturan keamanan Firebase selesai dikonfigurasi.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>➕ Siapkan Buku Baru</h2>
+      <p class="muted">
+        Isi data buku. Tombol di bawah hanya menyiapkan pratinjau,
+        bukan menerbitkan buku ke katalog.
+      </p>
+
+      <form id="book-form">
+        <label for="title">Judul buku</label>
+        <input id="title" required maxlength="160"
+          placeholder="Contoh: Lampu di Ujung Gang">
+
+        <label for="author">Nama penulis</label>
+        <input id="author" required maxlength="120"
+          placeholder="Nama penulis">
+
+        <label for="category">Kategori</label>
+        <select id="category" required>
+          <option value="">Pilih kategori</option>
+          <option>Cerita Pendek</option>
+          <option>Novel</option>
+          <option>Puisi</option>
+          <option>Pendidikan</option>
+          <option>Pengetahuan</option>
+          <option>Lainnya</option>
+        </select>
+
+        <label for="description">Deskripsi buku</label>
+        <textarea id="description" required maxlength="2000"
+          placeholder="Ceritakan isi buku secara singkat"></textarea>
+
+        <label for="sourceType">Jenis karya</label>
+        <select id="sourceType" required>
+          <option value="">Pilih jenis karya</option>
+          <option value="original">Karya asli</option>
+          <option value="licensed">Karya berlisensi</option>
+          <option value="public_domain">Domain publik</option>
+        </select>
+
+        <label for="license">Lisensi atau izin publikasi</label>
+        <input id="license" required maxlength="300"
+          placeholder="Contoh: Karya asli penulis">
+
+        <label for="content">Isi lengkap buku</label>
+        <textarea id="content" required
+          placeholder="Tulis isi buku di sini"></textarea>
+
+<label for="status">Status buku</label>
+<select id="status" required>
+  <option value="draft">Draf — belum tampil di katalog</option>
+  <option value="published">Terbit — tampil di katalog</option>
+</select>
+
+<button type="submit">Simpan Buku</button>
+<button type="reset" class="secondary">Kosongkan Formulir</button>
+      </form>
+      <p id="message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="panel" id="preview" hidden>
+      <h2 id="preview-title"></h2>
+      <p id="preview-author"></p>
+      <p id="preview-category"></p>
+      <p id="preview-description"></p>
+      <hr>
+      <div id="preview-content"
+        style="white-space:pre-wrap;line-height:1.8"></div>
+      <p class="muted">
+        Pratinjau ini hanya tersedia selama halaman terbuka.
+        Data belum disimpan ke Firebase.
+      </p>
+    </section>
+
+
+    <section class="panel" id="book-management">
+      <h2>Manajemen Buku</h2>
+      <p>Buku tersimpan di database RuangBaca.</p>
+
+      <h3>Buku Draf</h3>
+      <div id="draft-list">Memuat buku draf...</div>
+
+      <h3>Buku Terbit</h3>
+      <div id="published-list">Memuat buku terbit...</div>
+    </section>
+
+    <a class="link secondary" href="index.html">← Kembali ke RuangBaca</a>
+  </main>
+
+  <footer>RuangBaca — Tempat Setiap Karya Menemukan Pembacanya.</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
+<script>
+
+const ADMIN_UID = "UUoZxuKMzFSNZG0PPSyLWw7CIE82";
+
+// Salin nilai konfigurasi asli dari script.js ke sini.
+const firebaseConfig = {
+apiKey: "AIzaSyAR4gSaceVjp_cNJBQP_iiOBEzwWVVU-g0",
+  authDomain: "ruangbaca-dd797.firebaseapp.com",
+  projectId: "ruangbaca-dd797",
+  storageBucket: "ruangbaca-dd797.firebasestorage.app",
+  messagingSenderId: "9601713040",
+  appId: "1:9601713040:web:bcf701eba5cc94aa7e2915"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+const form = document.getElementById("book-form");
+const message = document.getElementById("message");
+const preview = document.getElementById("preview");
+const submitButton = form.querySelector('button[type="submit"]');
+
+
+let berhentiMendengarBuku = null;
+
+function tampilkanDaftarBuku(snapshot) {
+  const draftList = document.getElementById("draft-list");
+  const publishedList = document.getElementById("published-list");
+
+  draftList.replaceChildren();
+  publishedList.replaceChildren();
+
+  const books = snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+
+  books.sort((a, b) => {
+    const waktuA = a.createdAt?.toMillis?.() || 0;
+    const waktuB = b.createdAt?.toMillis?.() || 0;
+    return waktuB - waktuA;
+  });
+
+  function buatItem(book) {
+    const item = document.createElement("div");
+    item.style.padding = "10px";
+    item.style.marginBottom = "8px";
+    item.style.border = "1px solid #ccc";
+    item.style.borderRadius = "8px";
+
+    const judul = document.createElement("strong");
+    judul.textContent = book.title || "Tanpa judul";
+
+    const penulis = document.createElement("p");
+    penulis.textContent = "Penulis: " + (book.author || "-");
+
+    const status = document.createElement("small");
+    status.textContent = "Status: " + book.status;
+
+    item.append(judul, penulis, status);
+    return item;
+  }
+
+  const drafts = books.filter(book => book.status === "draft");
+  const published = books.filter(book => book.status === "published");
+
+  if (drafts.length === 0) {
+    draftList.textContent = "Belum ada buku draf.";
+  } else {
+    drafts.forEach(book => draftList.appendChild(buatItem(book)));
+  }
+
+  if (published.length === 0) {
+    publishedList.textContent = "Belum ada buku terbit.";
+  } else {
+    published.forEach(book => publishedList.appendChild(buatItem(book)));
+  }
+}
+
+function mulaiMendengarBuku() {
+  if (berhentiMendengarBuku) return;
+
+  berhentiMendengarBuku = db.collection("books").onSnapshot(
+    tampilkanDaftarBuku,
+    function(error) {
+      console.error("Gagal memuat daftar buku:", error);
+      document.getElementById("draft-list").textContent =
+        "Gagal memuat buku draf.";
+      document.getElementById("published-list").textContent =
+        "Gagal memuat buku terbit.";
+    }
+  );
+}
+
+function hentikanMendengarBuku() {
+  if (berhentiMendengarBuku) {
+    berhentiMendengarBuku();
+    berhentiMendengarBuku = null;
+  }
+}
+
+let adminSiap = false;
+
+submitButton.disabled = true;
+
+auth.onAuthStateChanged(function (user) {
+  if (user && user.uid === ADMIN_UID) {
+    mulaiMendengarBuku();
+  } else {
+    hentikanMendengarBuku();
+  }
+
+  adminSiap = !!user && user.uid === ADMIN_UID;
+  submitButton.disabled = !adminSiap;
+
+  if (!user) {
+    message.textContent =
+      "Login dahulu melalui halaman utama RuangBaca.";
+  } else if (!adminSiap) {
+    message.textContent =
+      "Akses ditolak: akun ini bukan admin.";
+  } else {
+    message.textContent =
+      "Login admin berhasil. Dashboard siap digunakan.";
+  }
+});
+
+form.addEventListener("submit", async function (event) {
+  event.preventDefault();
+
+  if (!adminSiap || !auth.currentUser ||
+      auth.currentUser.uid !== ADMIN_UID) {
+    message.textContent = "Akses admin tidak diizinkan.";
+    return;
+  }
+
+  const get = id => document.getElementById(id);
+
+  const book = {
+    title: get("title").value.trim(),
+    author: get("author").value.trim(),
+    category: get("category").value,
+    description: get("description").value.trim(),
+    sourceType: get("sourceType").value,
+    license: get("license").value.trim(),
+    content: get("content").value.trim(),
+    status: get("status").value
+  };
+
+  if (Object.values(book).some(value => !value)) {
+    message.textContent = "Semua kolom wajib diisi, bre.";
+    return;
+  }
+
+  submitButton.disabled = true;
+  message.textContent = "Sedang menyimpan buku...";
+
+  try {
+    await db.collection("books").add({
+      ...book,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    get("preview-title").textContent = book.title;
+    get("preview-author").textContent = "Penulis: " + book.author;
+    get("preview-category").textContent = "Kategori: " + book.category;
+    get("preview-description").textContent = book.description;
+    get("preview-content").textContent = book.content;
+
+    preview.hidden = false;
+    message.textContent = book.status === "published"
+      ? "Buku berhasil disimpan dan diterbitkan!"
+      : "Buku berhasil disimpan sebagai draf.";
+
+    form.reset();
+    preview.scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (error) {
+    console.error("Gagal menyimpan buku:", error);
+    message.textContent = "Gagal menyimpan: " + error.message;
+  } finally {
+    submitButton.disabled = !adminSiap;
+  }
+});
+
+form.addEventListener("reset", function () {
+  preview.hidden = true;
+});
+
+</script>
+</body>
+</html>

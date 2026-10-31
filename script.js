@@ -130,3 +130,162 @@ auth.onAuthStateChanged(function (user) {
     console.log("Pengguna masuk:", user.email);
   }
 });
+
+/* KATALOG DINAMIS RUANGBACA - FIRESTORE */
+(function () {
+  const grid = document.getElementById("books-grid");
+  if (!grid || typeof firebase.firestore !== "function") return;
+
+  const db = firebase.firestore();
+  const searchInput = document.querySelector(
+    '.searchbar input[type="search"]'
+  );
+  const chips = document.querySelectorAll(".chips .chip");
+
+  let books = [];
+  let activeCategory = "Semua buku";
+
+  const status = document.createElement("p");
+  status.className = "section-sub";
+  status.textContent = "Memuat koleksi buku...";
+  grid.before(status);
+
+  const reader = document.createElement("article");
+  reader.className = "auth-card";
+  reader.hidden = true;
+  reader.style.marginTop = "24px";
+  grid.after(reader);
+
+  function safeText(value) {
+    return String(value == null ? "" : value);
+  }
+
+  function makeElement(tag, className, text) {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    if (text != null) element.textContent = text;
+    return element;
+  }
+
+  function renderBooks() {
+    const query = (searchInput ? searchInput.value : "")
+      .trim()
+      .toLowerCase();
+
+    const filtered = books.filter(function (book) {
+      const category = safeText(book.category);
+      const matchesCategory =
+        activeCategory === "Semua buku" ||
+        category.toLowerCase() === activeCategory.toLowerCase();
+
+      const searchable = [
+        book.title,
+        book.author,
+        book.category,
+        book.description
+      ].map(safeText).join(" ").toLowerCase();
+
+      return matchesCategory && searchable.includes(query);
+    });
+
+    grid.replaceChildren();
+
+    if (!filtered.length) {
+      status.textContent = books.length
+        ? "Belum ada buku yang cocok dengan pencarian ini."
+        : "Belum ada buku terbit yang tersedia.";
+      return;
+    }
+
+    status.textContent = "Menampilkan " + filtered.length + " buku.";
+
+    filtered.forEach(function (book, index) {
+      const card = makeElement("article", "book-card");
+      const cover = makeElement("div", "cover c" + ((index % 8) + 1));
+      cover.append(
+        makeElement("span", "cover-tag", safeText(book.category)),
+        makeElement("strong", "", safeText(book.title)),
+        makeElement("small", "", "RUANGBACA DIGITAL")
+      );
+
+      const info = makeElement("div", "book-info");
+      info.append(
+        makeElement("span", "genre", safeText(book.category)),
+        makeElement("h3", "", safeText(book.title)),
+        makeElement("p", "", safeText(book.author))
+      );
+
+      const bottom = makeElement("div", "book-bottom");
+      bottom.append(
+        makeElement("span", "available", "● Tersedia")
+      );
+
+      const button = makeElement("button", "borrow", "Baca ↗");
+      button.type = "button";
+      button.addEventListener("click", function () {
+        reader.replaceChildren();
+        reader.hidden = false;
+
+        reader.append(
+          makeElement("h3", "", safeText(book.title)),
+          makeElement("p", "", "Penulis: " + safeText(book.author)),
+          makeElement("p", "", "Kategori: " + safeText(book.category)),
+          makeElement("p", "", safeText(book.description))
+        );
+
+        const content = makeElement("div");
+        content.style.whiteSpace = "pre-wrap";
+        content.style.lineHeight = "1.8";
+        content.textContent = safeText(book.content) ||
+          "Isi buku belum tersedia.";
+        reader.append(content);
+
+        const close = makeElement("button", "btn btn-outline", "Tutup bacaan");
+        close.type = "button";
+        close.style.marginTop = "20px";
+        close.addEventListener("click", function () {
+          reader.hidden = true;
+        });
+        reader.append(close);
+        reader.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      bottom.append(button);
+      info.append(bottom);
+      card.append(cover, info);
+      grid.append(card);
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener("input", renderBooks);
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      activeCategory = chip.textContent.trim();
+
+      chips.forEach(function (item) {
+        item.classList.toggle("active", item === chip);
+      });
+
+      renderBooks();
+    });
+  });
+
+  db.collection("books")
+    .where("status", "==", "published")
+    .get()
+    .then(function (snapshot) {
+      books = snapshot.docs.map(function (doc) {
+        return doc.data();
+      });
+
+      renderBooks();
+    })
+    .catch(function (error) {
+      console.error("Gagal memuat katalog:", error);
+      status.textContent =
+        "Katalog belum bisa dimuat. Periksa koneksi dan aturan Firestore.";
+    });
+})();
