@@ -1,0 +1,42 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.uid == "UUoZxuKMzFSNZG0PPSyLWw7CIE82";
+    }
+
+    function validBook() {
+      return request.resource.data.keys().hasAll([
+          "title",
+          "author",
+          "category",
+          "description",
+          "content",
+          "sourceType",
+          "license",
+          "status"
+        ])
+        && request.resource.data.title is string
+        && request.resource.data.author is string
+        && request.resource.data.category is string
+        && request.resource.data.description is string
+        && request.resource.data.content is string
+        && request.resource.data.sourceType
+          in ["original", "licensed", "public_domain"]
+        && request.resource.data.license is string
+        && request.resource.data.status in ["draft", "published"];
+    }
+
+    match /books/{bookId} {
+      allow read: if resource.data.status == "published"
+        || isAdmin();
+
+      allow create, update: if isAdmin() && validBook();
+
+      allow delete: if isAdmin();
+    }
+  }
+}
